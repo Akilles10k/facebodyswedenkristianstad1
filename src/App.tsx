@@ -257,9 +257,75 @@ export default function App() {
       </main>
 
       <footer className="footer">
-        <div className="wrap footer__row">
-          <p>Face & Body Sweden · Kristianstad</p>
-          <p>Prototyp. Bokningar sparas i webbläsaren, och Swish är inte kopplat ännu.</p>
+        <div className="wrap footer__grid">
+          <div className="footer__brand">
+            <p className="footer__logo">
+              Face <span className="footer__amp">&</span> Body
+              <span>Sweden</span>
+            </p>
+            <p>Klinik för ansikte, kropp och leende. Vid 24/7-gymmet, Högskolan i Kristianstad.</p>
+          </div>
+          <div>
+            <p className="footer__label">Snabblänkar</p>
+            <ul>
+              <li>
+                <a href="#behandlingar">Behandlingar</a>
+              </li>
+              <li>
+                <a href="#besok">Besök oss</a>
+              </li>
+              <li>
+                <a href="#omdomen">Omdöme</a>
+              </li>
+              <li>
+                <button type="button" onClick={() => openBooking()}>
+                  Boka tid
+                </button>
+              </li>
+              <li>
+                <a href={SITE.phoneHref}>Ring {SITE.phone}</a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <p className="footer__label">Behandlingar</p>
+            <ul>
+              {CATEGORIES.map((category) => (
+                <li key={category.id}>
+                  <a href={`#cat-${category.id}`}>{category.label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="footer__label">Kontakt</p>
+            <ul>
+              <li>
+                {SITE.address}
+                <br />
+                {SITE.postal}
+              </li>
+              <li>
+                <a href={SITE.emailHref}>{SITE.email}</a>
+              </li>
+              <li>
+                <a href={SITE.instagramHref} target="_blank" rel="noreferrer">
+                  {SITE.instagram}
+                </a>
+              </li>
+              <li>
+                <a href={SITE.mapHref} target="_blank" rel="noreferrer">
+                  Öppna karta
+                </a>
+              </li>
+              <li>Måndag–fredag 10–19</li>
+              <li>Lördag–söndag 12–16</li>
+            </ul>
+          </div>
+        </div>
+        <div className="wrap footer__legal">
+          <p>© 2026 {SITE.name}</p>
+          <p>Skapad av Webbolt. Alla rättigheter förbehållna.</p>
         </div>
       </footer>
 
