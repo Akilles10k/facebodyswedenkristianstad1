@@ -321,7 +321,8 @@ export default function BookingPanel({
             </ul>
           </div>
         ) : (
-          <form onSubmit={onSubmit}>
+          <form className="book__form" onSubmit={onSubmit}>
+            <div className="book__body">
             <div className="steps" aria-hidden>
               {STEPS.map((label, index) => (
                 <span key={label} className={index < step ? "is-on" : ""} />
@@ -539,6 +540,7 @@ export default function BookingPanel({
                 {error}
               </p>
             )}
+            </div>
 
             <div className="book__actions">
               {step > 1 && (

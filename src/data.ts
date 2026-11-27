@@ -21,7 +21,7 @@ export type Category = {
   intro: string;
 };
 
-/** Sunday = 0. Hours from the clinic's Bokadirekt page. */
+/** Sunday = 0. Clinic opening hours. */
 export const OPENING: Record<number, { start: string; end: string }> = {
   0: { start: "12:00", end: "16:00" },
   1: { start: "10:00", end: "19:00" },
@@ -46,7 +46,8 @@ export const SITE = {
   instagram: "@face_and_body_sweden",
   instagramHref: "https://instagram.com/face_and_body_sweden",
   facebookHref: "https://www.facebook.com/100063610621067",
-  bokadirektHref: "https://www.bokadirekt.se/places/face-body-sweden-32402",
+  googleReviewsHref:
+    "https://www.google.com/maps/search/?api=1&query=Face%20%26%20Body%20Sweden%20Stridsvagnsv%C3%A4gen%2010A%20Kristianstad",
   address: "Stridsvagnsvägen 10A",
   postal: "291 39 Kristianstad",
   mapHref: "https://maps.google.com/?q=Stridsvagnsv%C3%A4gen%2010A%2C%20291%2039%20Kristianstad",

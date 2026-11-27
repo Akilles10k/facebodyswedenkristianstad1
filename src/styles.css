@@ -33,6 +33,7 @@ body {
   font-size: 17px;
   line-height: 1.5;
   text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
 }
 
 img {
@@ -231,7 +232,7 @@ p {
 .hero {
   position: relative;
   height: 100svh;
-  min-height: 640px;
+  min-height: 100svh;
   overflow: hidden;
   background: var(--dark);
 }
@@ -383,9 +384,11 @@ p {
   transition: background 0.25s ease, color 0.25s ease;
 }
 
-.feature:hover {
-  background: var(--ink);
-  color: var(--cream);
+@media (hover: hover) and (pointer: fine) {
+  .feature:hover {
+    background: var(--ink);
+    color: var(--cream);
+  }
 }
 
 .feature__index {
@@ -447,7 +450,13 @@ p {
   gap: 32px;
   padding: 42px 0;
   border-bottom: 1px solid var(--line);
-  scroll-margin-top: 130px;
+  scroll-margin-top: 150px;
+}
+
+#behandlingar,
+#besok,
+#omdomen {
+  scroll-margin-top: calc(var(--nav) + 12px);
 }
 
 .menu__group h3 {
@@ -596,6 +605,8 @@ p {
 
 .quote__meta a {
   color: var(--cream);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
 }
 
 .footer {
@@ -720,6 +731,9 @@ p {
   z-index: 50;
   display: grid;
   grid-template-columns: minmax(280px, 0.82fr) minmax(420px, 1.18fr);
+  grid-template-rows: minmax(0, 1fr);
+  height: 100svh;
+  overflow: hidden;
   background: var(--bg);
 }
 
@@ -730,6 +744,7 @@ p {
   display: flex;
   flex-direction: column;
   min-height: 0;
+  overflow: hidden;
 }
 
 .book__aside h2 {
@@ -760,9 +775,24 @@ p {
 .done li {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   gap: 12px;
   padding: 12px 0;
   border-top: 1px solid rgba(247, 243, 238, 0.14);
+  overflow-wrap: anywhere;
+}
+
+.book__lines li > span:first-child {
+  min-width: 0;
+}
+
+.done li {
+  border-top-color: var(--line);
+}
+
+.done li span {
+  flex-shrink: 0;
+  overflow-wrap: normal;
 }
 
 .book__lines small {
@@ -822,8 +852,10 @@ p {
 
 .book__main {
   position: relative;
+  min-height: 0;
   overflow: auto;
   padding: 28px 36px 48px;
+  -webkit-overflow-scrolling: touch;
 }
 
 .book__close {
@@ -930,9 +962,14 @@ p {
   margin-bottom: 8px;
 }
 
+.pick__list button > span {
+  min-width: 0;
+}
+
 .pick__list strong,
 .pick__list small {
   display: block;
+  overflow-wrap: anywhere;
 }
 
 .pick__list small {
@@ -964,11 +1001,24 @@ p {
   text-transform: capitalize;
 }
 
-.cal__nav button,
+.cal__nav button {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+}
+
 .cal__grid button {
-  width: 40px;
-  height: 40px;
+  width: 100%;
+  max-width: 44px;
+  aspect-ratio: 1;
+  height: auto;
   border-radius: 50%;
+}
+
+.cal__week span {
+  width: 100%;
+  max-width: 44px;
+  text-align: center;
 }
 
 .cal__week,
@@ -1116,31 +1166,41 @@ p {
 @media (max-width: 900px) {
   .nav {
     backdrop-filter: none;
-    background: rgba(244, 239, 232, 0.96);
+    background: var(--bg);
     z-index: 40;
+    padding-top: env(safe-area-inset-top);
+    height: calc(var(--nav) + env(safe-area-inset-top));
   }
 
   .nav nav {
     position: fixed;
-    inset: var(--nav) 0 0;
+    inset: calc(var(--nav) + env(safe-area-inset-top)) 0 0;
     background: var(--bg);
     display: none;
     flex-direction: column;
     align-items: flex-start;
-    padding: 28px 24px;
-    gap: 18px;
+    padding: 28px 24px calc(28px + env(safe-area-inset-bottom));
+    gap: 8px;
     margin: 0;
+    overflow: auto;
     font-size: 32px;
     font-family: var(--serif);
     z-index: 40;
   }
 
-.nav__sheet-book {
-  display: inline-flex;
-  margin-top: 8px;
-  font-family: var(--sans);
-  font-size: 16px;
-}
+  .nav nav a {
+    font-size: 32px;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .nav__sheet-book {
+    display: inline-flex;
+    margin-top: 12px;
+    font-family: var(--sans);
+    font-size: 16px;
+  }
 
   .nav nav.is-open {
     display: flex;
@@ -1154,6 +1214,25 @@ p {
     display: none;
   }
 
+  .hero__copy {
+    top: auto;
+    bottom: max(28px, env(safe-area-inset-bottom));
+  }
+
+  body.has-cart .hero__copy {
+    bottom: calc(92px + env(safe-area-inset-bottom));
+  }
+
+  .hero__slide.is-light .hero__scrim {
+    background:
+      linear-gradient(180deg, rgba(244, 239, 232, 0.55) 0%, rgba(244, 239, 232, 0.2) 28%, rgba(244, 239, 232, 0.78) 62%, rgba(244, 239, 232, 0.94) 100%);
+  }
+
+  .hero__slide.is-dark .hero__scrim {
+    background:
+      linear-gradient(180deg, rgba(16, 12, 10, 0.45) 0%, rgba(16, 12, 10, 0.12) 34%, rgba(16, 12, 10, 0.72) 68%, rgba(16, 12, 10, 0.88) 100%);
+  }
+
   .intro__grid,
   .principles,
   .features__grid,
@@ -1163,16 +1242,56 @@ p {
     grid-template-columns: 1fr;
   }
 
+  .book {
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
   .menu__group header {
     position: static;
   }
 
+  .menu__group {
+    scroll-margin-top: 188px;
+  }
+
+  .menu {
+    position: relative;
+    z-index: 1;
+  }
+
+  .menu__jump {
+    top: calc(var(--nav) + env(safe-area-inset-top) - 10px);
+    flex-wrap: wrap;
+    row-gap: 0;
+    column-gap: 14px;
+    overflow: visible;
+    padding: 16px 0 8px;
+    background: var(--bg);
+    box-shadow: 100vw 0 0 0 var(--bg), -100vw 0 0 0 var(--bg);
+  }
+
+  .menu__jump a {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .pills {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+
+  .feature {
+    min-height: 0;
+  }
+
   .book__aside {
-    padding: 18px 18px 12px;
+    padding: calc(14px + env(safe-area-inset-top)) 18px 12px;
+    overflow: visible;
   }
 
   .book__aside h2 {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
   }
 
   .book__aside-lead,
@@ -1183,7 +1302,7 @@ p {
 
   .book__aside-compact {
     display: block;
-    margin: 0;
+    margin: 4px 0 0;
   }
 
   .book__aside-foot {
@@ -1192,7 +1311,59 @@ p {
   }
 
   .book__main {
-    padding: 16px 18px 32px;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 18px calc(12px + env(safe-area-inset-bottom));
+  }
+
+  .book__form {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .book__body {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    padding-bottom: 8px;
+  }
+
+  .book h3,
+  .steps {
+    clear: none;
+  }
+
+  .book h3 {
+    font-size: 1.7rem;
+  }
+
+  .book__close {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    float: none;
+    display: block;
+    width: fit-content;
+    margin-left: auto;
+    min-width: 44px;
+    padding-inline: 4px;
+    background: var(--bg);
+  }
+
+  .book__actions {
+    position: static;
+    flex-shrink: 0;
+    margin: 0 -18px;
+    padding: 12px 18px 4px;
+    background: var(--bg);
+    border-top: 1px solid var(--line);
+  }
+
+  .book__actions .btn {
+    min-height: 48px;
+    flex: 1;
   }
 
   .pay {
@@ -1203,20 +1374,91 @@ p {
     min-height: 96px;
   }
 
-  .footer__grid,
-  .footer__legal {
+  .fields {
+    max-width: none;
+  }
+
+  .footer__grid {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .footer__legal {
     flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer a,
+  .footer button {
+    min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .cart {
+    bottom: calc(12px + env(safe-area-inset-bottom));
+    width: min(560px, calc(100% - 20px));
+  }
+
+  body.has-cart .footer {
+    padding-bottom: calc(128px + env(safe-area-inset-bottom));
+  }
+
+  body.has-cart .menu {
+    padding-bottom: 120px;
+  }
+}
+
+@media (max-width: 900px) and (max-height: 700px) {
+  .book__aside {
+    padding-top: 10px;
+    padding-bottom: 8px;
+  }
+
+  .book__aside h2 {
+    font-size: 1.35rem;
+  }
+
+  .book__aside-foot {
+    display: none;
+  }
+
+  .lede {
+    margin-bottom: 8px;
+    font-size: 15px;
+  }
+
+  .cal__grid button {
+    max-width: 34px;
+  }
+
+  .book h3 {
+    margin: 0 0 8px;
   }
 }
 
 @media (max-width: 640px) {
-  .hero {
-    min-height: 100svh;
+  .wrap {
+    width: min(1120px, calc(100% - 32px));
   }
 
   .hero__title {
-    font-size: 3rem;
+    font-size: clamp(2.55rem, 12vw, 3.15rem);
+  }
+
+  .hero__text {
+    font-size: 16px;
+  }
+
+  .intro h1,
+  .visit h2,
+  .menu__head h2,
+  .quote blockquote p {
+    font-size: clamp(1.85rem, 8.4vw, 2.5rem);
+  }
+
+  .principles h2,
+  .team h3 {
+    font-size: 26px;
   }
 
   .footer__grid,
@@ -1225,20 +1467,31 @@ p {
     grid-template-columns: 1fr;
   }
 
-  .menu__group li,
-  .menu__end {
-    align-items: flex-start;
-    flex-direction: column;
+  .menu__group li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
   }
 
   .menu__end {
+    flex-direction: column;
     align-items: flex-end;
+    gap: 8px;
+  }
+
+  .menu__end button {
+    min-height: 44px;
   }
 
   .intro,
   .visit,
   .quote {
-    padding: 64px 0;
+    padding: 56px 0;
+  }
+
+  .footer {
+    padding-top: 48px;
   }
 }
 

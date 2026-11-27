@@ -26,13 +26,6 @@ export default function App() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    document.body.style.overflow = menuOpen || bookingOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [menuOpen, bookingOpen]);
-
   const chosen = useMemo(
     () =>
       selected
@@ -40,6 +33,15 @@ export default function App() {
         .filter((service): service is NonNullable<ReturnType<typeof serviceById>> => Boolean(service)),
     [selected],
   );
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen || bookingOpen ? "hidden" : "";
+    document.body.classList.toggle("has-cart", chosen.length > 0 && !bookingOpen && !menuOpen);
+    return () => {
+      document.body.style.overflow = "";
+      document.body.classList.remove("has-cart");
+    };
+  }, [menuOpen, bookingOpen, chosen.length]);
 
   const toggle = (id: string) => {
     setSelected((current) => {
@@ -248,8 +250,8 @@ export default function App() {
               <footer>Qalbi Wanag</footer>
             </blockquote>
             <p className="quote__meta">
-              <a href={SITE.bokadirektHref} target="_blank" rel="noreferrer">
-                5,0 · 1 250 betyg på Bokadirekt
+              <a href={SITE.googleReviewsHref} target="_blank" rel="noreferrer">
+                Omdömen på Google
               </a>
             </p>
           </div>
